@@ -1,0 +1,14 @@
+name = Dir
+description = Provide web links directory.
+core = 7.x
+package = Web
+version = 7.x-0.1
+project = dir
+dependencies[] = eck
+dependencies[] = eck_extras
+dependencies[] = features
+features[eck_entity_type][] = dir_container
+features[eck_entity_type][] = dir_link
+features[eck_entity_type][] = dir_role
+features[features_api][] = api:2
+features_exclude[dependencies][eck] = eck

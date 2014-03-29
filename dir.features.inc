@@ -33,6 +33,11 @@ function dir_eck_entity_type_info() {
           'type' => 'integer',
           'behavior' => 'changed',
         ),
+        'name' => array(
+          'label' => 'Name',
+          'type' => 'text',
+          'behavior' => 'name',
+        ),
       ),
     ),
     'dir_link' => array(
@@ -85,7 +90,7 @@ function dir_eck_entity_type_info() {
           'type' => 'integer',
           'behavior' => 'changed',
         ),
-        'link_id' => array(
+        'link' => array(
           'label' => 'Link',
           'type' => 'positive_integer',
           'behavior' => 'entityreference',

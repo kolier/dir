@@ -5,3 +5,69 @@
  */
 
 include_once 'dir.features.inc';
+
+// -----------------------------------------------------------------------------
+// Entity hook
+
+/**
+ * Implements hook_entity_property_info().
+ */
+function dir_entity_property_info() {
+  $info = array();
+  // Add roles property to dir_link.
+  $roles_property_info = dir_link_roles_entity_property_info();
+  $info['dir_link']['properties']['roles'] = array(
+  	'label' => t('Roles of link'),
+    'descriptoin' => t('List of roles this link has.'),
+    'type' => 'struct',
+    'computed' => TRUE,
+    'getter callback' => 'dir_link_roles_entity_property_getter',
+    'property info' => $roles_property_info,
+  );
+
+  return $info;
+}
+
+/**
+ * Helper function to generate the roles property info.
+ */
+function dir_link_roles_entity_property_info() {
+  $info = array();
+  $entity_info = entity_get_info('dir_role');
+  foreach ($entity_info['bundles'] as $bundle => $bundle_info) {
+    $info[$bundle] = array(
+    	'label' => $bundle_info['label'],
+      'description' => t('@role is a role of link', array('@role' => $bundle_info['label'])),
+      'type' => 'dir_role',
+    );
+  }
+
+  return $info;
+}
+
+/**
+ * 'getter callback' for dir_link roles property.
+ */
+function dir_link_roles_entity_property_getter($data, array $options, $name, $type, $info) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'dir_role')
+    ->propertyCondition('link', $data->id);
+  $result = $query->execute();
+
+  return _dir_link_roles_entity_property_getter($result['dir_role']);
+}
+
+/**
+ * Helper function to prepare the return.
+ */
+function _dir_link_roles_entity_property_getter($result) {
+  // Prepare the skeloton array.
+  $entity_info = entity_get_info('dir_role');
+  $roles = array_fill_keys(array_keys($entity_info['bundles']), NULL);
+  // Fill the values
+  foreach ($result as $role) {
+    $roles[$role->type] = $role->id;
+  }
+
+  return $roles;
+}

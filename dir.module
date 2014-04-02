@@ -7,26 +7,10 @@
 include_once 'dir.features.inc';
 
 // -----------------------------------------------------------------------------
-// Entity hook
+// EntityMetadataWrapper property callback
 
-/**
- * Implements hook_entity_property_info().
- */
-function dir_entity_property_info() {
-  $info = array();
-  // Add roles property to dir_link.
-  $roles_property_info = dir_link_roles_entity_property_info();
-  $info['dir_link']['properties']['roles'] = array(
-  	'label' => t('Roles of link'),
-    'descriptoin' => t('List of roles this link has.'),
-    'type' => 'struct',
-    'computed' => TRUE,
-    'getter callback' => 'dir_link_roles_entity_property_getter',
-    'property info' => $roles_property_info,
-  );
-
-  return $info;
-}
+// -----------------
+// dir_link property
 
 /**
  * Helper function to generate the roles property info.
@@ -36,7 +20,7 @@ function dir_link_roles_entity_property_info() {
   $entity_info = entity_get_info('dir_role');
   foreach ($entity_info['bundles'] as $bundle => $bundle_info) {
     $info[$bundle] = array(
-    	'label' => $bundle_info['label'],
+      'label' => $bundle_info['label'],
       'description' => t('@role is a role of link', array('@role' => $bundle_info['label'])),
       'type' => 'dir_role',
     );
@@ -70,4 +54,25 @@ function _dir_link_roles_entity_property_getter($result) {
   }
 
   return $roles;
+}
+
+// ----------------------
+// dir_container property
+
+/**
+ * 'getter callback' for dir_container category parent property.
+ */
+function dir_container_parent_entity_property_getter($data, array $options, $name, $type, $info) {
+  // Just a mirror of field_dir_category_parent.
+  // @todo May have issue.
+  return entity_metadata_field_property_get($data, $options, 'field_dir_category_parent', $type, $info);
+}
+
+/**
+ * 'getter callback' for dir_container category child property.
+ */
+function dir_container_child_entity_property_getter($data, array $options, $name, $type, $info) {
+  $entities = KtoolsEntityField::entityreferenceRevertEntities('field_dir_category_parent', $data->id, 'dir_container', $info['langcode']);
+
+  return array_keys($entities);
 }

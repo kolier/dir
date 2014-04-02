@@ -2,7 +2,7 @@
 
 /**
  * @file
- * CTools content_types plugin: 
+ * CTools content_types plugin: dir_container_category_children.
  */
 
 $plugin = array(

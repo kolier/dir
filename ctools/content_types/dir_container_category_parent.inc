@@ -2,14 +2,14 @@
 
 /**
  * @file
- * CTools content_types plugin:
+ * CTools content_types plugin: dir_container_category_parent.
  */
 
 $plugin = array(
-    'title' => t('Category parent'),
-    'description' => t('Display parent of current category.'),
-    'category' => 'Dir',
-    'required context' => new ctools_context_required(t('Dir: Container'), 'dir_container'),
+  'title' => t('Category parent'),
+  'description' => t('Display parent of current category.'),
+  'category' => 'Dir',
+  'required context' => new ctools_context_required(t('Dir: Container'), 'dir_container'),
 );
 
 function dir_dir_container_category_parent_content_type_render($subtype, $conf, $args, $pane_context, $incoming_content) {

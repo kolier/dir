@@ -20,6 +20,14 @@ function dir_entity_property_info() {
     'getter callback' => 'dir_link_roles_entity_property_getter',
     'property info' => $roles_property_info,
   );
+  // Add 'links' property to dir_container.
+  $info['dir_container']['properties']['links'] = array(
+    'label' => t('Links'),
+    'descriptoin' => t('List of links in the container.'),
+    'type' => 'list<dir_link>',
+    'computed' => TRUE,
+    'getter callback' => 'dir_container_links_entity_property_getter',
+  );
   // Add 'parent'/'child' property to dir_container category.
   $info['dir_container']['bundles']['category']['properties']['parent'] = array(
     'label' => t('Parent category'),

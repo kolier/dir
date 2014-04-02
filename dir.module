@@ -72,6 +72,13 @@ function _dir_link_roles_entity_property_getter($result) {
 // dir_container property
 
 /**
+ * 'getter callback' for dir_container links property.
+ */
+function dir_container_links_entity_property_getter($data, array $options, $name, $type, $info) {
+  return KtoolsEntityField::entityreferenceRevertEntities('field_dir_container', $data->id, 'dir_link', $info['langcode']);
+}
+
+/**
  * 'getter callback' for dir_container category parent property.
  */
 function dir_container_parent_entity_property_getter($data, array $options, $name, $type, $info) {

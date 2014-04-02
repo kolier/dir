@@ -7,6 +7,18 @@
 include_once 'dir.features.inc';
 
 // -----------------------------------------------------------------------------
+// General hook
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function dir_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return $owner . '/' . $plugin_type;
+  }
+}
+
+// -----------------------------------------------------------------------------
 // EntityMetadataWrapper property callback
 
 // -----------------
@@ -64,7 +76,7 @@ function _dir_link_roles_entity_property_getter($result) {
  */
 function dir_container_parent_entity_property_getter($data, array $options, $name, $type, $info) {
   // Just a mirror of field_dir_category_parent.
-  // @todo May have issue.
+  // @todo May have issue, wait to check.
   return entity_metadata_field_property_get($data, $options, 'field_dir_category_parent', $type, $info);
 }
 
@@ -72,7 +84,5 @@ function dir_container_parent_entity_property_getter($data, array $options, $nam
  * 'getter callback' for dir_container category child property.
  */
 function dir_container_child_entity_property_getter($data, array $options, $name, $type, $info) {
-  $entities = KtoolsEntityField::entityreferenceRevertEntities('field_dir_category_parent', $data->id, 'dir_container', $info['langcode']);
-
-  return array_keys($entities);
+  return KtoolsEntityField::entityreferenceRevertEntities('field_dir_category_parent', $data->id, 'dir_container', $info['langcode']);
 }

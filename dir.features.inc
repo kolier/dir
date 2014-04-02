@@ -5,6 +5,43 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function dir_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function dir_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
+ * Implements hook_eck_bundle_info().
+ */
+function dir_eck_bundle_info() {
+  $items = array(
+    'dir_container_category' => array(
+      'machine_name' => 'dir_container_category',
+      'entity_type' => 'dir_container',
+      'name' => 'category',
+      'label' => 'Category',
+    ),
+    'dir_link_url' => array(
+      'machine_name' => 'dir_link_url',
+      'entity_type' => 'dir_link',
+      'name' => 'url',
+      'label' => 'URL',
+    ),
+  );
+  return $items;
+}
+
+/**
  * Implements hook_eck_entity_type_info().
  */
 function dir_eck_entity_type_info() {

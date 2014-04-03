@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Dir feature.
@@ -23,23 +24,6 @@ function dir_ctools_plugin_directory($owner, $plugin_type) {
 
 // -----------------
 // dir_link property
-
-/**
- * Helper function to generate the roles property info.
- */
-function dir_link_roles_entity_property_info() {
-  $info = array();
-  $entity_info = entity_get_info('dir_role');
-  foreach ($entity_info['bundles'] as $bundle => $bundle_info) {
-    $info[$bundle] = array(
-      'label' => $bundle_info['label'],
-      'description' => t('@role is a role of link', array('@role' => $bundle_info['label'])),
-      'type' => 'dir_role',
-    );
-  }
-
-  return $info;
-}
 
 /**
  * 'getter callback' for dir_link roles property.
@@ -68,6 +52,28 @@ function _dir_link_roles_entity_property_getter($result) {
   return $roles;
 }
 
+/**
+ * 'getter callback' for dir_link container property.
+ */
+function dir_link_container_entity_property_getter($data, array $options, $name, $type, $info) {
+  // Just a mirror of field_dir_container.
+  return entity_metadata_field_property_get($data, $options, 'field_dir_container', $type, $info);
+}
+
+/**
+ * 'getter callback' for dir_link containers property.
+ */
+function dir_link_containers_entity_property_getter($data, array $options, $name, $type, $info) {
+  $container_ids = entity_metadata_field_property_get($data, $options, 'field_dir_container', $type, $info);
+  $containers = array();
+  foreach ($container_ids as $container_id) {
+    $container = entity_load_single('dir_container', $container_id);
+    $containers[$container->type][] = $container_id;
+  }
+
+  return $containers;
+}
+
 // ----------------------
 // dir_container property
 
@@ -81,15 +87,14 @@ function dir_container_links_entity_property_getter($data, array $options, $name
 /**
  * 'getter callback' for dir_container category parent property.
  */
-function dir_container_parent_entity_property_getter($data, array $options, $name, $type, $info) {
+function dir_container_category_parent_entity_property_getter($data, array $options, $name, $type, $info) {
   // Just a mirror of field_dir_category_parent.
-  // @todo May have issue, wait to check.
   return entity_metadata_field_property_get($data, $options, 'field_dir_category_parent', $type, $info);
 }
 
 /**
  * 'getter callback' for dir_container category child property.
  */
-function dir_container_child_entity_property_getter($data, array $options, $name, $type, $info) {
+function dir_container_category_child_entity_property_getter($data, array $options, $name, $type, $info) {
   return KtoolsEntityField::entityreferenceRevertEntities('field_dir_category_parent', $data->id, 'dir_container', $info['langcode']);
 }

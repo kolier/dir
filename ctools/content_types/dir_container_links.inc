@@ -14,7 +14,6 @@ $plugin = array(
 
 function dir_dir_container_links_content_type_render($subtype, $conf, $args, $pane_context, $incoming_content) {
   $container = $pane_context->data;
-
   $container_wrapper = entity_metadata_wrapper('dir_container', $container);
   $links = array();
   foreach ($container_wrapper->links->value() as $link) {

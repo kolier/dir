@@ -14,7 +14,6 @@ $plugin = array(
 
 function dir_dir_container_category_children_content_type_render($subtype, $conf, $args, $pane_context, $incoming_content) {
   $category = $pane_context->data;
-  
   $category_wrapper = entity_metadata_wrapper('dir_container', $category);
   $children = array();
   foreach ($category_wrapper->child->value() as $child) {

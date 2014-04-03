@@ -20,21 +20,50 @@ function dir_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 // -----------------------------------------------------------------------------
+// Utility
+
+/**
+ * Utility function to get the dir_role that ref to dir_link.
+ */
+function dir_link_get_roles($link_id) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'dir_role')
+    ->propertyCondition('link', $link_id);
+  $result = $query->execute();
+
+  return isset($result['dir_role']) ? $result['dir_role'] : array();
+}
+
+// -----------------------------------------------------------------------------
 // EntityMetadataWrapper property callback
 
 // -----------------
 // dir_link property
 
 /**
+ * 'getter callback' for dir_link role property.
+ */
+function dir_link_role_entity_property_getter($data, array $options, $name, $type, $info) {
+  return _dir_link_role_entity_property_getter(dir_link_get_roles($data->id));
+}
+
+/**
+ * Helper function to prepare the return.
+ */
+function _dir_link_role_entity_property_getter($result) {
+  $roles = array();
+  foreach ($result as $role) {
+    $roles[] = $role->id;
+  }
+
+  return $roles;
+}
+
+/**
  * 'getter callback' for dir_link roles property.
  */
 function dir_link_roles_entity_property_getter($data, array $options, $name, $type, $info) {
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'dir_role')
-    ->propertyCondition('link', $data->id);
-  $result = $query->execute();
-
-  return _dir_link_roles_entity_property_getter($result['dir_role']);
+  return _dir_link_roles_entity_property_getter(dir_link_get_roles($data->id));
 }
 
 /**

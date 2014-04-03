@@ -10,10 +10,18 @@
  */
 function dir_entity_property_info() {
   $info = array();
+  // Add 'role' property to dir_link.
+  $info['dir_link']['properties']['role'] = array(
+    'label' => t('Role'),
+    'descriptoin' => t('List of roles of the link.'),
+    'type' => 'list<dir_role>',
+    'computed' => TRUE,
+    'getter callback' => 'dir_link_role_entity_property_getter',
+  );
   // Add 'roles' property to dir_link.
   $info['dir_link']['properties']['roles'] = array(
     'label' => t('Roles'),
-    'descriptoin' => t('List of roles of the link.'),
+    'descriptoin' => t('List of roles of the link by types.'),
     'type' => 'struct',
     'property info' => dir_link_roles_entity_property_info(),
     'computed' => TRUE,

@@ -193,8 +193,7 @@ function dir_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['table'] = 'eck_dir_container';
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['label'] = 'Operation';
-  $handler->display->display_options['fields']['edit_link']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['edit_link']['alter']['text'] = 'Edit';
+  $handler->display->display_options['fields']['edit_link']['text'] = 'Edit';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'main');
@@ -338,6 +337,7 @@ function dir_views_default_views() {
   $handler->display->display_options['fields']['edit_link']['table'] = 'eck_dir_link';
   $handler->display->display_options['fields']['edit_link']['field'] = 'edit_link';
   $handler->display->display_options['fields']['edit_link']['label'] = 'Operation';
+  $handler->display->display_options['fields']['edit_link']['text'] = 'Edit';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'main');

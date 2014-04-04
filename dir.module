@@ -14,7 +14,7 @@ include_once 'dir.features.inc';
  * Implements hook_ctools_plugin_directory().
  */
 function dir_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+  if ($owner == 'ctools' && in_array($plugin_type, array('content_types', 'relationships'))) {
     return $owner . '/' . $plugin_type;
   }
 }
